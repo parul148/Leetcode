@@ -1,21 +1,27 @@
 class Solution {
 public:
     int countPrimes(int n) {
-        int cnt = 0;
-        vector<bool> prime(n+1, true);
-        // 0 1 are non prinme
-        prime[0] = prime[1]= false;
-
-        for(int i =2; i<n; i++){
-            if(prime[i]){
-                cnt++;
-
-                for(int j = 2*i; j<n; j=j+i){// mark non prime
-                    prime[j]= 0;
+        if (n <= 1) return 0;
+        
+        vector<bool> isPrime(n, true);
+        
+        
+        for (int p = 2; p * p < n; ++p) {
+            if (isPrime[p]) {
+                
+                for (int i = p * p; i < n; i += p) {
+                    isPrime[i] = false;
                 }
             }
         }
-        return cnt;
+
+        int cnt = 0;
+        for (int p = 2; p < n; ++p) {
+            if (isPrime[p]) {
+                ++cnt;
+            }
+        }
         
+        return cnt;
     }
 };
